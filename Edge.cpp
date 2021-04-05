@@ -60,7 +60,7 @@ bool operator == (const Edge& lhs, const Edge& rhs) {
 }
 
 // tests if edge connects to given vertex
-bool Edge::isIncident(Vertex a) {
+bool Edge::isIncident(Vertex a) const {
     return (v_a == a || v_b == a);
 }
 
