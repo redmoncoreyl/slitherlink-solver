@@ -24,7 +24,7 @@ public:
     friend bool operator <= (const Edge& lhs, const Edge& rhs); // compare operator
     friend bool operator >= (const Edge& lhs, const Edge& rhs); // compare operator
     friend bool operator == (const Edge& lhs, const Edge& rhs); // compare operator
-    bool isIncident(Vertex a);
+    bool isIncident(Vertex a) const;
     Vertex getA() const;
     Vertex getB() const;
 };
