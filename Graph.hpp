@@ -22,8 +22,8 @@ public:
     Graph& operator = (Graph g); // copy assignment operator
     ~Graph(); // destructor
     friend std::ostream& operator << (std::ostream& out, const Graph& g); // stream insertion operator
-    std::set<Edge> getEdges();
-    std::set<Vertex> getVertices();
+    std::set<Edge> getEdges() const;
+    std::set<Vertex> getVertices() const;
 };
 
 #endif
