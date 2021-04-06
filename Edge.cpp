@@ -71,3 +71,7 @@ Vertex Edge::getA() const {
 Vertex Edge::getB() const {
     return v_b;
 }
+
+int Edge::getId() const {
+    return id;
+}

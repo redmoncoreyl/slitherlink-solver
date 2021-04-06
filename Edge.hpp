@@ -27,6 +27,17 @@ public:
     bool isIncident(Vertex a) const;
     Vertex getA() const;
     Vertex getB() const;
+    int getId() const;
 };
+
+namespace std {
+    template <>
+    struct hash<Edge> {
+        size_t operator()(const Edge& e) const {
+            // Compute individual hash values for two data members and combine them using XOR and bit shifting
+            return hash<int>()(e.getId());
+        }
+    };
+}
 
 #endif
