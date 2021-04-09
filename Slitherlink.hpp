@@ -3,31 +3,30 @@
 
 #include "Edge.hpp"
 #include "Zdd.hpp"
-#include <unordered_map>
-#include <unordered_set>
-#include <map>
+#include <boost/unordered_map.hpp>
+#include <boost/unordered_set.hpp>
 #include <vector>
 #include <iostream>
 
-typedef std::map<Vertex, Vertex> MateFunction;
-typedef std::map<std::unordered_set<Edge>, int> CountFunction;
+typedef boost::unordered_map<Vertex, Vertex> MateFunction;
+typedef boost::unordered_map<boost::unordered_set<Edge>, int> CountFunction;
 
 class Slitherlink {
 private:
     int n; // number of vertices
     int m; // number of edges
     int k; // number of hints
-    std::unordered_set<Vertex> vertexSet;
+    boost::unordered_set<Vertex> vertexSet;
     std::vector<Edge> edgeList;
-    std::map<std::unordered_set<Edge>, int> hints;
+    boost::unordered_map<boost::unordered_set<Edge>, int> hints;
     Zdd<Edge>* diagram;
     Zdd<Edge>* zeroTerminal;
     Zdd<Edge>* oneTerminal;
-    std::vector<std::unordered_set<Vertex> > domain;
-    std::vector<std::unordered_map<std::pair<MateFunction, CountFunction>, Zdd<Edge>*> > existingNodes;
-    std::unordered_map<Zdd<Edge>*, MateFunction> nodesMateFunction;
-    std::unordered_map<Zdd<Edge>*, CountFunction> nodesCountFunction;
-    std::unordered_map<Zdd<Edge>*, int> nodesLayer;
+    std::vector<boost::unordered_set<Vertex> > domain;
+    std::vector<boost::unordered_map<std::pair<MateFunction, CountFunction>, Zdd<Edge>*> > existingNodes;
+    boost::unordered_map<Zdd<Edge>*, MateFunction> nodesMateFunction;
+    boost::unordered_map<Zdd<Edge>*, CountFunction> nodesCountFunction;
+    boost::unordered_map<Zdd<Edge>*, int> nodesLayer;
 public:
     Slitherlink(); // default constructor
     Slitherlink(std::istream& in); // standard constructor
@@ -37,14 +36,5 @@ public:
     ~Slitherlink(); // destructor
     friend std::ostream& operator << (std::ostream& out, const Slitherlink& s); // stream insertion operator
 };
-
-namespace std {
-    template <class T1, class T2>
-    struct hash<std::pair<T1, T2> > {
-        std::size_t operator()(const std::pair<T1, T2>& p) const {
-            return std::hash<T1>{}(p.first) ^ std::hash<T2>{}(p.second);
-        }
-    };
-}
 
 #endif
