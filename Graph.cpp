@@ -51,10 +51,10 @@ std::ostream& operator << (std::ostream& out, const Graph& g) {
     return out;
 }
 
-std::unordered_set<Edge> Graph::getEdges() const {
+boost::unordered_set<Edge> Graph::getEdges() const {
     return edgeSet;
 }
 
-std::unordered_set<Vertex> Graph::getVertices() const {
+boost::unordered_set<Vertex> Graph::getVertices() const {
     return vertexSet;
 }

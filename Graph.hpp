@@ -2,17 +2,17 @@
 #define GRAPH_H
 
 #include "Edge.hpp"
-#include <unordered_map>
-#include <unordered_set>
+#include <boost/unordered_map>
+#include <boost/unordered_set>
 #include <iostream>
 
 class Graph {
 private:
     int n; // number of vertices
     int m; // number of edges
-    std::unordered_set<Edge> edgeSet;
-    std::unordered_set<Vertex> vertexSet;
-    std::unordered_map<Vertex, std::unordered_set<Vertex> > adjacencyList;
+    boost::unordered_set<Edge> edgeSet;
+    boost::unordered_set<Vertex> vertexSet;
+    boost::unordered_map<Vertex, boost::unordered_set<Vertex> > adjacencyList;
 public:
     Graph(); // default constructor
     Graph(std::istream& in); // standard constructor
@@ -21,8 +21,8 @@ public:
     Graph& operator = (Graph g); // copy assignment operator
     ~Graph(); // destructor
     friend std::ostream& operator << (std::ostream& out, const Graph& g); // stream insertion operator
-    std::unordered_set<Edge> getEdges() const;
-    std::unordered_set<Vertex> getVertices() const;
+    boost::unordered_set<Edge> getEdges() const;
+    boost::unordered_set<Vertex> getVertices() const;
 };
 
 #endif
