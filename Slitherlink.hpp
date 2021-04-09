@@ -18,7 +18,7 @@ private:
     int k; // number of hints
     boost::unordered_set<Vertex> vertexSet;
     std::vector<Edge> edgeList;
-    CountFunction hints;
+    boost::unordered_set<CountFunction> hints;
     Zdd<Edge>* diagram;
     Zdd<Edge>* zeroTerminal;
     Zdd<Edge>* oneTerminal;
