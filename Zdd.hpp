@@ -2,7 +2,7 @@
 #define ZDD_H
 
 #include <iostream>
-#include <unordered_set>
+#include <boost/unordered_set.hpp>
 
 enum NodeType {
     normal = 0,
@@ -30,7 +30,7 @@ public:
     Zdd<T>* getZeroChild(); // getter
     Zdd<T>* getOneChild(); // getter
     NodeType getType(); // getter
-    std::unordered_set<std::unordered_set<T> > getFamily(); // getter
+    boost::unordered_set<boost::unordered_set<T> > getFamily(); // getter
 
     friend std::ostream& operator << (std::ostream& out, const Zdd& z) { // stream insertion operator
         out << z.elt;
@@ -114,15 +114,15 @@ NodeType Zdd<T>::getType() {
 
 // getter
 template <typename T>
-std::unordered_set<std::unordered_set<T> > Zdd<T>::getFamily() {
+boost::unordered_set<boost::unordered_set<T> > Zdd<T>::getFamily() {
     // base cases:
     //   zero terminal nodes don't contribute anything (the family is empty)
     //   one terminal nodes contribute a family containing 1 empty set
     if (type == NodeType::zero_terminal) {
-        return std::unordered_set<std::unordered_set<T> >({});
+        return boost::unordered_set<boost::unordered_set<T> >({});
     }
     if (type == NodeType::one_terminal) {
-        return std::unordered_set<std::unordered_set<T> >({{}});
+        return boost::unordered_set<boost::unordered_set<T> >({{}});
     }
     // if node is non-terminal:
     //   get the family of the zero_child and the one_child
@@ -130,9 +130,9 @@ std::unordered_set<std::unordered_set<T> > Zdd<T>::getFamily() {
     //   add this node's element to the sets in the one child's family
     //   return the union of the two families
 
-    std::unordered_set<std::unordered_set<T> > zeroFamily = zero_child ? zero_child->getFamily() : std::unordered_set<std::unordered_set<T> >({});
-    std::unordered_set<std::unordered_set<T> > oneFamily = one_child ? one_child->getFamily() : std::unordered_set<std::unordered_set<T> >({});
-    std::unordered_set<std::unordered_set<T> > thisFamily;
+    boost::unordered_set<boost::unordered_set<T> > zeroFamily = zero_child ? zero_child->getFamily() : boost::unordered_set<boost::unordered_set<T> >({});
+    boost::unordered_set<boost::unordered_set<T> > oneFamily = one_child ? one_child->getFamily() : boost::unordered_set<boost::unordered_set<T> >({});
+    boost::unordered_set<boost::unordered_set<T> > thisFamily;
 
     for (auto s : oneFamily) {
         s.insert(elt);
