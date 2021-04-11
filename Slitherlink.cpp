@@ -63,3 +63,16 @@ void swap(Slitherlink& s1, Slitherlink& s2) {
     std::swap(s1.nodesCountFunction, s2.nodesCountFunction);
     std::swap(s1.nodesLayer, s2.nodesLayer);
 }
+
+// copy assignment operator
+Slitherlink& Slitherlink::operator = (Slitherlink s) {
+    std::swap(*this, s);
+    return *this;
+}
+
+// destructor
+Slitherlink::~Slitherlink() {
+    delete diagram;
+    delete zeroTerminal;
+    delete oneTerminal;
+}
