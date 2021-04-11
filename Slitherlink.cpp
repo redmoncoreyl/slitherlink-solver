@@ -45,3 +45,21 @@ Slitherlink::Slitherlink(const Slitherlink& s)
       nodesMateFunction(s.nodesMateFunction),
       nodesCountFunction(s.nodesCountFunction),
       nodesLayer(s.nodesLayer) {}
+
+// swap function
+void swap(Slitherlink& s1, Slitherlink& s2) {
+    std::swap(s1.n, s2.n);
+    std::swap(s1.m, s2.m);
+    std::swap(s1.k, s2.k);
+    std::swap(s1.vertexSet, s2.vertexSet);
+    std::swap(s1.edgeList, s2.edgeList);
+    std::swap(s1.hints, s2.hints);
+    std::swap(s1.diagram, s2.diagram);
+    std::swap(s1.zeroTerminal, s2.zeroTerminal);
+    std::swap(s1.oneTerminal, s2.oneTerminal);
+    std::swap(s1.domain, s2.domain);
+    std::swap(s1.existingNodes, s2.existingNodes);
+    std::swap(s1.nodesMateFunction, s2.nodesMateFunction);
+    std::swap(s1.nodesCountFunction, s2.nodesCountFunction);
+    std::swap(s1.nodesLayer, s2.nodesLayer);
+}
