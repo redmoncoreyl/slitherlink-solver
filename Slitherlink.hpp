@@ -28,7 +28,6 @@ private:
     std::map<Zdd<Edge>*, CountFunction> nodesCountFunction;
     std::map<Zdd<Edge>*, int> nodesLayer;
 public:
-    Slitherlink(); // default constructor
     Slitherlink(std::istream& in); // standard constructor
     Slitherlink(const Slitherlink& s); // copy constructor
     friend void swap(Slitherlink& s1, Slitherlink& s2); // swap function

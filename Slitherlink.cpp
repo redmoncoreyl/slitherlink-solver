@@ -1,8 +1,5 @@
 #include "Slitherlink.hpp"
 
-// default constructor
-Slitherlink::Slitherlink() { }
-
 // standard constructor
 Slitherlink::Slitherlink(std::istream& in) {
     // read number of vertices, edges, and hints
