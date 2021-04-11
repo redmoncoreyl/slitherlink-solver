@@ -28,3 +28,20 @@ Slitherlink::Slitherlink(std::istream& in) {
         hints[index_set] = hint_value;
     }
 }
+
+// copy constructor
+Slitherlink::Slitherlink(const Slitherlink& s)
+    : n(s.n),
+      m(s.m),
+      k(s.k),
+      vertexSet(s.vertexSet),
+      edgeList(s.edgeList),
+      hints(s.hints),
+      diagram(new Zdd<Edge>(*s.diagram)),
+      zeroTerminal(new Zdd<Edge>(*s.zeroTerminal)),
+      oneTerminal(new Zdd<Edge>(*s.oneTerminal)),
+      domain(s.domain),
+      existingNodes(s.existingNodes),
+      nodesMateFunction(s.nodesMateFunction),
+      nodesCountFunction(s.nodesCountFunction),
+      nodesLayer(s.nodesLayer) {}
