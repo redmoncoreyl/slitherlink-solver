@@ -18,14 +18,16 @@ Slitherlink::Slitherlink(std::istream& in) {
     for (int i = 0; i < k; i++) {
         int e; // number of edges in the current hint
         in >> e;
-        std::set<int> index_set;
+        boost::unordered_set<int> index_set;
         for (int j = 0; j < e; j++) {
             int edge_index;
             in >> edge_index;
             index_set.insert(edge_index);
         }
         int hint_value;
-        hints[index_set] = hint_value;
+        in >> hint_value;
+        hintDomain.push_back(index_set);
+        hints.push_back(hint_value);
     }
 }
 
@@ -36,11 +38,12 @@ Slitherlink::Slitherlink(const Slitherlink& s)
       k(s.k),
       vertexSet(s.vertexSet),
       edgeList(s.edgeList),
+      hintDomain(s.hintDomain),
       hints(s.hints),
       diagram(new Zdd<Edge>(*s.diagram)),
       zeroTerminal(new Zdd<Edge>(*s.zeroTerminal)),
       oneTerminal(new Zdd<Edge>(*s.oneTerminal)),
-      domain(s.domain),
+      layerDomain(s.layerDomain),
       existingNodes(s.existingNodes),
       nodesMateFunction(s.nodesMateFunction),
       nodesCountFunction(s.nodesCountFunction),
@@ -53,11 +56,12 @@ void swap(Slitherlink& s1, Slitherlink& s2) {
     std::swap(s1.k, s2.k);
     std::swap(s1.vertexSet, s2.vertexSet);
     std::swap(s1.edgeList, s2.edgeList);
+    std::swap(s1.hintDomain, s2.hintDomain);
     std::swap(s1.hints, s2.hints);
     std::swap(s1.diagram, s2.diagram);
     std::swap(s1.zeroTerminal, s2.zeroTerminal);
     std::swap(s1.oneTerminal, s2.oneTerminal);
-    std::swap(s1.domain, s2.domain);
+    std::swap(s1.layerDomain, s2.layerDomain);
     std::swap(s1.existingNodes, s2.existingNodes);
     std::swap(s1.nodesMateFunction, s2.nodesMateFunction);
     std::swap(s1.nodesCountFunction, s2.nodesCountFunction);
@@ -75,4 +79,19 @@ Slitherlink::~Slitherlink() {
     delete diagram;
     delete zeroTerminal;
     delete oneTerminal;
+}
+
+// stream insertion operator
+std::ostream& operator << (std::ostream& out, const Slitherlink& s) {
+    out << s.n << " " << s.m << " " << s.k << std::endl;
+    for (auto e : s.edgeList) {
+        out << e << std::endl;
+    }
+    for (int hd  = 0; hd < s.hintDomain.size(); hd++) {
+        for (auto i : s.hintDomain[hd]) {
+            out << i << " ";
+        }
+        out << s.hints[hd] << std::endl;
+    }
+    return out;
 }

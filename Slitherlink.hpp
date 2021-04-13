@@ -3,30 +3,31 @@
 
 #include "Edge.hpp"
 #include "Zdd.hpp"
-#include <set>
-#include <map>
+#include <boost/unordered_set.hpp>
+#include <boost/unordered_map.hpp>
 #include <vector>
 #include <iostream>
 
-typedef std::map<Vertex, Vertex> MateFunction;
-typedef std::map<std::set<int>, int> CountFunction;
+typedef std::vector<int> MateFunction;
+typedef std::vector<int> CountFunction;
 
 class Slitherlink {
 private:
     int n; // number of vertices
     int m; // number of edges
     int k; // number of hints
-    std::set<Vertex> vertexSet;
+    boost::unordered_set<Vertex> vertexSet;
     std::vector<Edge> edgeList;
+    std::vector<boost::unordered_set<int> > hintDomain;
     CountFunction hints;
     Zdd<Edge>* diagram;
     Zdd<Edge>* zeroTerminal;
     Zdd<Edge>* oneTerminal;
-    std::vector<std::set<Vertex> > domain;
-    std::vector<std::map<std::pair<MateFunction, CountFunction>, Zdd<Edge>*> > existingNodes;
-    std::map<Zdd<Edge>*, MateFunction> nodesMateFunction;
-    std::map<Zdd<Edge>*, CountFunction> nodesCountFunction;
-    std::map<Zdd<Edge>*, int> nodesLayer;
+    std::vector<boost::unordered_set<Vertex> > layerDomain;
+    std::vector<boost::unordered_map<std::pair<MateFunction, CountFunction>, Zdd<Edge>*> > existingNodes;
+    boost::unordered_map<Zdd<Edge>*, MateFunction> nodesMateFunction;
+    boost::unordered_map<Zdd<Edge>*, CountFunction> nodesCountFunction;
+    boost::unordered_map<Zdd<Edge>*, int> nodesLayer;
 public:
     Slitherlink(std::istream& in); // standard constructor
     Slitherlink(const Slitherlink& s); // copy constructor
