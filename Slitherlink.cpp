@@ -6,6 +6,13 @@ Slitherlink::Slitherlink(std::istream& in) {
     // read number of vertices, edges, and hints
     in >> n >> m >> k;
 
+    // reserve vectors
+    edgeList.reserve(m);
+    hintDomain.reserve(k);
+    hints.reserve(k);
+    layerDomain.reserve(m+1);
+    existingNodes.reserve(m);
+
     // read edges
     for (int i = 0; i < m; i++) {
         Vertex v1, v2;
@@ -28,6 +35,10 @@ Slitherlink::Slitherlink(std::istream& in) {
         hintDomain.push_back(index_set);
         hints.push_back(hint_value);
     }
+
+    createRoot();
+    createTerminals();
+    determineLayerDomains();
 }
 
 // copy constructor
