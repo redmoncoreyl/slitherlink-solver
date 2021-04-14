@@ -16,7 +16,6 @@ private:
     int n; // number of vertices
     int m; // number of edges
     int k; // number of hints
-    boost::unordered_set<Vertex> vertexSet;
     std::vector<Edge> edgeList;
     std::vector<boost::unordered_set<int> > hintDomain;
     CountFunction hints;
