@@ -27,6 +27,11 @@ private:
     boost::unordered_map<Zdd<Edge>*, MateFunction> nodesMateFunction;
     boost::unordered_map<Zdd<Edge>*, CountFunction> nodesCountFunction;
     boost::unordered_map<Zdd<Edge>*, int> nodesLayer;
+
+    void createRoot();
+    void createTerminals();
+    void determineLayerDomains();
+
 public:
     Slitherlink(std::istream& in); // standard constructor
     Slitherlink(const Slitherlink& s); // copy constructor

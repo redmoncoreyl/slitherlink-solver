@@ -1,4 +1,5 @@
 #include "Slitherlink.hpp"
+#include <algorithm>
 
 // standard constructor
 Slitherlink::Slitherlink(std::istream& in) {
@@ -91,3 +92,35 @@ std::ostream& operator << (std::ostream& out, const Slitherlink& s) {
     }
     return out;
 }
+
+void Slitherlink::createRoot() {
+    // the root node doesn't have any edges added to the set
+    // therefore, the mate function is the identity, where every
+    // node is its own mate
+    MateFunction mateIdentity;
+    mateIdentity.reserve(n);
+    for (int i = 0; i < n; i++) {
+        mateIdentity.push_back(i);
+    }
+    // the count function identity is all zeros becuase none of the
+    // edge sets in the domain have any edges included yet
+    CountFunction countIdentity(k, 0);
+    diagram = getNode(0, mateIdentity, countIdentity);
+}
+
+void Slitherlink::createTerminals() {
+    zeroTerminal = new Zdd<Edge>(NodeType::zero_terminal);
+    oneTerminal = new Zdd<Edge>(NodeType::one_terminal);
+}
+
+void Slitherlink::determineLayerDomains() {
+    // to create the domains, add the edges in reverse order
+    layerDomain.push_back(boost::unordered_set<Vertex>());
+    for (int i = 0; i < m; i++) {
+        layerDomain.push_back(layerDomain[i]);
+        layerDomain[i+1].insert(edgeList[i].getA());
+        layerDomain[i+1].insert(edgeList[i].getB());
+    }
+    std::reverse(layerDomain.begin(), layerDomain.end());
+}
+
