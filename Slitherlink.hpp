@@ -31,6 +31,7 @@ private:
     void createRoot();
     void createTerminals();
     void determineLayerDomains();
+    Zdd<Edge>* getNode(const int i, const std::pair<MateFunction, CountFunction>& p);
 
 public:
     Slitherlink(std::istream& in); // standard constructor

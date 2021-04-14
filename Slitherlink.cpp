@@ -116,7 +116,7 @@ void Slitherlink::createRoot() {
     // the count function identity is all zeros becuase none of the
     // edge sets in the domain have any edges included yet
     CountFunction countIdentity(k, 0);
-    diagram = getNode(0, mateIdentity, countIdentity);
+    diagram = getNode(0, std::make_pair(mateIdentity, countIdentity));
 }
 
 void Slitherlink::createTerminals() {
@@ -135,3 +135,18 @@ void Slitherlink::determineLayerDomains() {
     std::reverse(layerDomain.begin(), layerDomain.end());
 }
 
+Zdd<Edge>* Slitherlink::getNode(const int i, const std::pair<MateFunction, CountFunction>& p) {
+    // "It is conveniently assumed that GN(|E| + 1, m) gives the 1 terminal"
+    if (i >= m) return oneTerminal;
+    // if the pair of mate and count functions already exists, return that node
+    if (existingNodes[i].count(p)) return existingNodes[i][p];
+    // otherwise, a new node is required. when creating a new node:
+    //   allocate the node and add it to the existing nodes
+    //   add the node's mate function, count function, and layer
+    Zdd<Edge>* n = new Zdd<Edge>(edgeList[i]);
+    existingNodes[i][p] = n;
+    nodesMateFunction[n] = p.first;
+    nodesCountFunction[n] = p.second;
+    nodesLayer[n] = i;
+    return n;
+}
