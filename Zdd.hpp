@@ -2,13 +2,17 @@
 #define ZDD_H
 
 #include <iostream>
-#include <boost/unordered_set.hpp>
+#include <unordered_set>
+#include <vector>
 
 enum NodeType {
     normal = 0,
     zero_terminal = 1,
     one_terminal = 2
 };
+
+template <typename T>
+using Family = std::vector<std::unordered_set<T> >;
 
 template <typename T>
 class Zdd {
@@ -30,7 +34,7 @@ public:
     Zdd<T>* getZeroChild(); // getter
     Zdd<T>* getOneChild(); // getter
     NodeType getType(); // getter
-    boost::unordered_set<boost::unordered_set<T> > getFamily(); // getter
+    Family<T> getFamily(); // getter
 
     friend std::ostream& operator << (std::ostream& out, const Zdd& z) { // stream insertion operator
         out << z.elt;
@@ -114,15 +118,15 @@ NodeType Zdd<T>::getType() {
 
 // getter
 template <typename T>
-boost::unordered_set<boost::unordered_set<T> > Zdd<T>::getFamily() {
+Family<T> Zdd<T>::getFamily() {
     // base cases:
     //   zero terminal nodes don't contribute anything (the family is empty)
     //   one terminal nodes contribute a family containing 1 empty set
     if (type == NodeType::zero_terminal) {
-        return boost::unordered_set<boost::unordered_set<T> >({});
+        return Family<T>({});
     }
     if (type == NodeType::one_terminal) {
-        return boost::unordered_set<boost::unordered_set<T> >({{}});
+        return Family<T>({{}});
     }
     // if node is non-terminal:
     //   get the family of the zero_child and the one_child
@@ -130,16 +134,16 @@ boost::unordered_set<boost::unordered_set<T> > Zdd<T>::getFamily() {
     //   add this node's element to the sets in the one child's family
     //   return the union of the two families
 
-    boost::unordered_set<boost::unordered_set<T> > zeroFamily = zero_child ? zero_child->getFamily() : boost::unordered_set<boost::unordered_set<T> >({});
-    boost::unordered_set<boost::unordered_set<T> > oneFamily = one_child ? one_child->getFamily() : boost::unordered_set<boost::unordered_set<T> >({});
-    boost::unordered_set<boost::unordered_set<T> > thisFamily;
+    Family<T> zeroFamily = zero_child ? zero_child->getFamily() : Family<T>({});
+    Family<T> oneFamily = one_child ? one_child->getFamily() : Family<T>({});
+    Family<T> thisFamily;
 
     for (auto s : oneFamily) {
         s.insert(elt);
-        thisFamily.insert(s);
+        thisFamily.push_back(s);
     }
     for (auto s : zeroFamily) {
-        thisFamily.insert(s);
+        thisFamily.push_back(s);
     }
 
     return thisFamily;
