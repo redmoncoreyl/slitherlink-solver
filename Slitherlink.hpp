@@ -11,6 +11,11 @@
 typedef std::vector<int> MateFunction;
 typedef std::vector<int> CountFunction;
 
+enum MateType {
+    OutOfDomain = -2,
+    DegreeTwo = -1
+};
+
 class Slitherlink {
 private:
     int n; // number of vertices
