@@ -218,6 +218,13 @@ CountFunction Slitherlink::countUpdate(const CountFunction& count, const int i) 
     return cu;
 }
 
+bool Slitherlink::doesMatchHints(const CountFunction& count) {
+    for (int i = 0; i < k; i++) {
+        if (count[i] != hints[i]) return false;
+    }
+    return true;
+}
+
 Family<Edge> Slitherlink::generateFamily() {
     // this set allows us to skip nodes that have already spawned children
     std::unordered_set<Zdd<Edge>* > visited;
