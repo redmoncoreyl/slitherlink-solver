@@ -208,6 +208,16 @@ bool Slitherlink::doesFormCycle(const MateFunction& m, const Edge& e) {
     return !emptySet;
 }
 
+CountFunction Slitherlink::countUpdate(const CountFunction& count, const int i) {
+    CountFunction cu = count;
+    for (int j = 0; j < k; j++) {
+        if (hintDomain[j].count(i)) {
+            cu[j]++;
+        }
+    }
+    return cu;
+}
+
 Family<Edge> Slitherlink::generateFamily() {
     // this set allows us to skip nodes that have already spawned children
     std::unordered_set<Zdd<Edge>* > visited;

@@ -43,6 +43,7 @@ private:
     bool isIncompatibleCount(const CountFunction& count, const int i);
     MateFunction induceDomain(const MateFunction& m, const int i);
     bool doesFormCycle(const MateFunction& m, const Edge& e);
+    CountFunction countUpdate(const CountFunction& count, const int i);
 public:
     Slitherlink(std::istream& in); // standard constructor
     Slitherlink(const Slitherlink& s); // copy constructor
