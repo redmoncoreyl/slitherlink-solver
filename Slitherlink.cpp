@@ -184,6 +184,16 @@ bool Slitherlink::isIncompatibleCount(const CountFunction& count, const int i) {
     return false;
 }
 
+MateFunction Slitherlink::induceDomain(const MateFunction& m, const int i) {
+    MateFunction subMate = m;
+    for (int j = 0; j < n; j++) {
+        if (!layerDomain[i].count(j)) {
+            subMate[j] = MateType::OutOfDomain;
+        }
+    }
+    return subMate;
+}
+
 Family<Edge> Slitherlink::generateFamily() {
     // this set allows us to skip nodes that have already spawned children
     std::unordered_set<Zdd<Edge>* > visited;

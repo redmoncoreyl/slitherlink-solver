@@ -41,6 +41,7 @@ private:
     Zdd<Edge>* getNode(const int i, const std::pair<MateFunction, CountFunction>& p);
     bool hasFixedEnd(const MateFunction& mate, const int i);
     bool isIncompatibleCount(const CountFunction& count, const int i);
+    MateFunction induceDomain(const MateFunction& m, const int i);
 public:
     Slitherlink(std::istream& in); // standard constructor
     Slitherlink(const Slitherlink& s); // copy constructor
