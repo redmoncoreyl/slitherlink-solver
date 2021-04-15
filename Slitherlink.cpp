@@ -242,6 +242,24 @@ bool Slitherlink::doesDeclineEdge(const MateFunction& m, const int i) {
     return false;
 }
 
+MateFunction Slitherlink::mateUpdate(const MateFunction& m, const Edge& e) {
+    Vertex a = e.getA();
+    Vertex b = e.getB();
+
+    MateFunction mu = m;
+    Vertex mateA = m[a];
+    Vertex mateB = m[b];
+    mu[mateA] = mateB;
+    mu[mateB] = mateA;
+    if (mateA != a) {
+        mu[a] = MateType::DegreeTwo;
+    }
+    if (mateB != b) {
+        mu[b] = MateType::DegreeTwo;
+    }
+    return mu;
+}
+
 Family<Edge> Slitherlink::generateFamily() {
     // this set allows us to skip nodes that have already spawned children
     std::unordered_set<Zdd<Edge>* > visited;
