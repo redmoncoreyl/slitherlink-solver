@@ -194,6 +194,20 @@ MateFunction Slitherlink::induceDomain(const MateFunction& m, const int i) {
     return subMate;
 }
 
+bool Slitherlink::doesFormCycle(const MateFunction& m, const Edge& e) {
+    bool emptySet = true;
+    for (int j = 0; j < n; j++) {
+        if (m[j] == MateType::OutOfDomain) continue;
+        if (j == m[j]) continue;
+        emptySet = false;
+        if (m[j] == MateType::DegreeTwo) continue;
+        if (j == e.getA() && m[j] == e.getB()) continue;
+        if (j == e.getB() && m[j] == e.getA()) continue;
+        return false;
+    }
+    return !emptySet;
+}
+
 Family<Edge> Slitherlink::generateFamily() {
     // this set allows us to skip nodes that have already spawned children
     std::unordered_set<Zdd<Edge>* > visited;
