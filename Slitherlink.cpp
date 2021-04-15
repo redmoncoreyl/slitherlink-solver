@@ -286,5 +286,34 @@ Family<Edge> Slitherlink::generateFamily() {
         CountFunction count = nodesCountFunction[n];
         int i = nodesLayer[n];
         Edge e = edgeList[i];
+
+        Zdd<Edge>* zeroChild = NULL;
+        if (hasFixedEnd(mate, i) || isIncompatibleCount(count, i)) {
+            zeroChild = zeroTerminal;
+        } else {
+            zeroChild = getNode(i+1, std::make_pair(induceDomain(mate, i+1), count));
+        }
+
+        Zdd<Edge>* oneChild = NULL;
+        if (doesFormCycle(mate, e) && doesMatchHints(countUpdate(count, i))) {
+            oneChild = oneTerminal;
+        } else if (doesDeclineEdge(mate, i) || isIncompatibleCount(countUpdate(count, i), i)) {
+            oneChild = zeroTerminal;
+        } else {
+            oneChild = getNode(i+1, std::make_pair(induceDomain(mateUpdate(mate, e), i+1), countUpdate(count, i)));
+        }
+
+        n->setZeroChild(zeroChild);
+        n->setOneChild(oneChild);
+        toVisit.pop();
+        if (zeroChild != zeroTerminal && zeroChild != oneTerminal) {
+            toVisit.push(zeroChild);
+        }
+        if (oneChild != zeroTerminal && oneChild != oneTerminal) {
+            toVisit.push(oneChild);
+        }
+        visited.insert(n);
     }
+
+    return diagram->getFamily();
 }
