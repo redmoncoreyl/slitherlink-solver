@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
     }
     std::ifstream slitherlink_in;
     slitherlink_in.open(argv[1]);
+    Slitherlink s(slitherlink_in);
     // Family<Edge> f = s.generateFamily();
     // printFamily(f);
 
