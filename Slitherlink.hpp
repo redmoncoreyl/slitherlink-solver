@@ -28,6 +28,7 @@ private:
     Zdd<Edge>* zeroTerminal;
     Zdd<Edge>* oneTerminal;
     std::vector<boost::unordered_set<Vertex> > layerDomain;
+    std::vector<std::vector<int> > hintEdgeDomIntMag;
     std::vector<boost::unordered_map<std::pair<MateFunction, CountFunction>, Zdd<Edge>*> > existingNodes;
     boost::unordered_map<Zdd<Edge>*, MateFunction> nodesMateFunction;
     boost::unordered_map<Zdd<Edge>*, CountFunction> nodesCountFunction;
@@ -38,7 +39,7 @@ private:
     void determineLayerDomains();
     Zdd<Edge>* getNode(const int i, const std::pair<MateFunction, CountFunction>& p);
     bool hasFixedEnd(const MateFunction& mate, const int i);
-
+    bool isIncompatibleCount(const CountFunction& count, const int i);
 public:
     Slitherlink(std::istream& in); // standard constructor
     Slitherlink(const Slitherlink& s); // copy constructor

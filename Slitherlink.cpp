@@ -13,6 +13,10 @@ Slitherlink::Slitherlink(std::istream& in) {
     hints.reserve(k);
     layerDomain.reserve(m+1);
     existingNodes.reserve(m);
+    hintEdgeDomIntMag.reserve(k);
+    for (int i = 0; i < k; i++) {
+        hintEdgeDomIntMag.push_back(std::vector<int>(m+1, 0));
+    }
 
     // read edges
     for (int i = 0; i < m; i++) {
@@ -30,6 +34,9 @@ Slitherlink::Slitherlink(std::istream& in) {
             int edge_index;
             in >> edge_index;
             index_set.insert(edge_index);
+            for (int l = 0; l < edge_index + 1; l++) {
+                hintEdgeDomIntMag[i][l]++;
+            }
         }
         int hint_value;
         in >> hint_value;
@@ -162,6 +169,14 @@ bool Slitherlink::hasFixedEnd(const MateFunction& mate, const int i) {
     Vertex mateB = mate[b];
     if (!layerDomain[i+1].count(b) && mateB != MateType::DegreeTwo && mateB != b) {
         return true;
+    }
+    return false;
+}
+
+bool Slitherlink::isIncompatibleCount(const CountFunction& count, const int i) {
+    for (int j = 0; j < k; j++) {
+        if (count[j] > hints[j]) return true;
+        if (count[j] + hintEdgeDomIntMag[j][i+1] < hints[j]) return true;
     }
     return false;
 }
