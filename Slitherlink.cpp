@@ -152,6 +152,20 @@ Zdd<Edge>* Slitherlink::getNode(const int i, const std::pair<MateFunction, Count
     return n;
 }
 
+bool Slitherlink::hasFixedEnd(const MateFunction& mate, const int i) {
+    Vertex a = edgeList[i].getA();
+    Vertex mateA = mate[a];
+    if (!layerDomain[i+1].count(a) && mateA != MateType::DegreeTwo && mateA != a) {
+        return true;
+    }
+    Vertex b = edgeList[i].getB();
+    Vertex mateB = mate[b];
+    if (!layerDomain[i+1].count(b) && mateB != MateType::DegreeTwo && mateB != b) {
+        return true;
+    }
+    return false;
+}
+
 Family<Edge> Slitherlink::generateFamily() {
     // this set allows us to skip nodes that have already spawned children
     std::unordered_set<Zdd<Edge>* > visited;
