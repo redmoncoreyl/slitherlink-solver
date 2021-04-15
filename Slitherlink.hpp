@@ -10,6 +10,7 @@
 
 typedef std::vector<int> MateFunction;
 typedef std::vector<int> CountFunction;
+typedef std::pair<MateFunction, CountFunction> NodeBody;
 
 enum MateType {
     OutOfDomain = -2,
@@ -29,7 +30,7 @@ private:
     Zdd<Edge>* oneTerminal;
     std::vector<boost::unordered_set<Vertex> > layerDomain;
     std::vector<std::vector<int> > hintEdgeDomIntMag;
-    std::vector<boost::unordered_map<std::pair<MateFunction, CountFunction>, Zdd<Edge>*> > existingNodes;
+    std::vector<boost::unordered_map<NodeBody, Zdd<Edge>*> > existingNodes;
     boost::unordered_map<Zdd<Edge>*, MateFunction> nodesMateFunction;
     boost::unordered_map<Zdd<Edge>*, CountFunction> nodesCountFunction;
     boost::unordered_map<Zdd<Edge>*, int> nodesLayer;

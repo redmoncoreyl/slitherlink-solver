@@ -143,7 +143,7 @@ void Slitherlink::determineLayerDomains() {
     std::reverse(layerDomain.begin(), layerDomain.end());
 }
 
-Zdd<Edge>* Slitherlink::getNode(const int i, const std::pair<MateFunction, CountFunction>& p) {
+Zdd<Edge>* Slitherlink::getNode(const int i, const NodeBody& p) {
     // "It is conveniently assumed that GN(|E| + 1, m) gives the 1 terminal"
     if (i >= m) return oneTerminal;
     // if the pair of mate and count functions already exists, return that node
