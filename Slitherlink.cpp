@@ -13,6 +13,9 @@ Slitherlink::Slitherlink(std::istream& in) : diagram(NULL), zeroTerminal(NULL), 
     hints.reserve(k);
     layerDomain.reserve(m+1);
     existingNodes.reserve(m);
+    for (int i = 0; i < m; i++) {
+        existingNodes.push_back(boost::unordered_map<NodeBody, Zdd<Edge>* >());
+    }
     hintEdgeDomIntMag.reserve(k);
     for (int i = 0; i < k; i++) {
         hintEdgeDomIntMag.push_back(std::vector<int>(m+1, 0));
