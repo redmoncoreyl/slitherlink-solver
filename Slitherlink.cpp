@@ -225,6 +225,23 @@ bool Slitherlink::doesMatchHints(const CountFunction& count) {
     return true;
 }
 
+bool Slitherlink::doesDeclineEdge(const MateFunction& m, const int i) {
+    // the edge is rejected if it creates a branch
+    Edge e = edgeList[i];
+    Vertex a = e.getA();
+    Vertex b = e.getB();
+    if (m[a] == MateType::DegreeTwo || m[b] == MateType::DegreeTwo) {
+        return true;
+    }
+
+    // the edge is declined if it would create a fixed end
+    if (hasFixedEnd(mateUpdate(m, e), i)) {
+        return true;
+    }
+
+    return false;
+}
+
 Family<Edge> Slitherlink::generateFamily() {
     // this set allows us to skip nodes that have already spawned children
     std::unordered_set<Zdd<Edge>* > visited;
