@@ -3,7 +3,7 @@
 #include <queue>
 
 // standard constructor
-Slitherlink::Slitherlink(std::istream& in) {
+Slitherlink::Slitherlink(std::istream& in) : diagram(NULL), zeroTerminal(NULL), oneTerminal(NULL) {
     // read number of vertices, edges, and hints
     in >> n >> m >> k;
 
