@@ -40,6 +40,8 @@ public:
     Slitherlink& operator = (Slitherlink s); // copy assignment operator
     ~Slitherlink(); // destructor
     friend std::ostream& operator << (std::ostream& out, const Slitherlink& s); // stream insertion operator
+
+    Family<Edge> generateFamily();
 };
 
 #endif

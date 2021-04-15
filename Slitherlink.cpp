@@ -1,5 +1,6 @@
 #include "Slitherlink.hpp"
 #include <algorithm>
+#include <queue>
 
 // standard constructor
 Slitherlink::Slitherlink(std::istream& in) {
@@ -149,4 +150,33 @@ Zdd<Edge>* Slitherlink::getNode(const int i, const std::pair<MateFunction, Count
     nodesCountFunction[n] = p.second;
     nodesLayer[n] = i;
     return n;
+}
+
+Family<Edge> Slitherlink::generateFamily() {
+    // this set allows us to skip nodes that have already spawned children
+    std::unordered_set<Zdd<Edge>* > visited;
+    // ... or don't have chilren such as terminals
+    visited.insert(zeroTerminal);
+    visited.insert(oneTerminal);
+    // this is the queue of nodes that still require processing
+    std::queue<Zdd<Edge>* > toVisit;
+    toVisit.push(diagram);
+
+    // to process the queue:
+    //   create the children of node at front of queue
+    //   add children to back of queue (but not terminals)
+    //   pop queue
+    while (!toVisit.empty()) {
+        Zdd<Edge>* n = toVisit.front();
+
+        if (visited.count(n)) {
+            toVisit.pop();
+            continue;
+        }
+
+        MateFunction mate = nodesMateFunction[n];
+        CountFunction count = nodesCountFunction[n];
+        int i = nodesLayer[n];
+        Edge e = edgeList[i];
+    }
 }
