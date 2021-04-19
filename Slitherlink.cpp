@@ -138,10 +138,10 @@ void Slitherlink::createTerminals() {
 void Slitherlink::determineLayerDomains() {
     // to create the domains, add the edges in reverse order
     layerDomain.push_back(boost::unordered_set<Vertex>());
-    for (int i = 0; i < m; i++) {
-        layerDomain.push_back(layerDomain[i]);
-        layerDomain[i+1].insert(edgeList[i].getA());
-        layerDomain[i+1].insert(edgeList[i].getB());
+    for (int i = m-1; i >= 0; i--) {
+        layerDomain.push_back(layerDomain.back());
+        layerDomain.back().insert(edgeList[i].getA());
+        layerDomain.back().insert(edgeList[i].getB());
     }
     std::reverse(layerDomain.begin(), layerDomain.end());
 }
