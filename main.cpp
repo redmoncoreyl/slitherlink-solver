@@ -27,6 +27,7 @@ int main(int argc, char **argv) {
     Slitherlink s(slitherlink_in);
     Family<Edge> f = s.generateFamily();
     printFamily(f);
+    std::cout << "The family has been printed" << std::endl;
 
     return 0;
 }

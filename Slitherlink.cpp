@@ -115,6 +115,20 @@ std::ostream& operator << (std::ostream& out, const Slitherlink& s) {
     return out;
 }
 
+void printMate(const MateFunction& m) {
+    for (auto v : m) {
+        std::cout << v << " ";
+    }
+    std::cout << std::endl;
+}
+
+void printCount(const CountFunction& c) {
+    for (auto v : c) {
+        std::cout << v << " ";
+    }
+    std::cout << std::endl;
+}
+
 void Slitherlink::createRoot() {
     // the root node doesn't have any edges added to the set
     // therefore, the mate function is the identity, where every
@@ -278,29 +292,58 @@ Family<Edge> Slitherlink::generateFamily() {
         Zdd<Edge>* n = toVisit.front();
 
         if (visited.count(n)) {
+            std::cout << "Skipping visited node" << std::endl;
             toVisit.pop();
             continue;
         }
+        std::cout << "Visiting a new node on layer ";
 
         MateFunction mate = nodesMateFunction[n];
         CountFunction count = nodesCountFunction[n];
         int i = nodesLayer[n];
         Edge e = edgeList[i];
+        std::cout << i << " with e = {" << e << "}" << std::endl;
+        std::cout << "The mate is: " << std::endl << "  ";
+        printMate(mate);
+        std::cout << "The count is: " << std::endl << "  ";
+        printCount(count);
 
         Zdd<Edge>* zeroChild = NULL;
         if (hasFixedEnd(mate, i) || isIncompatibleCount(count, i)) {
             zeroChild = zeroTerminal;
+
+            std::cout << "zero-child is zeroTerminal" << std::endl;
+            std::cout << "  " << (hasFixedEnd(mate, i) ? "has fixed end" : "no fixed end") << std::endl;
+            std::cout << "  " << (isIncompatibleCount(count, i) ? "incompatible count" : "not imcompatible count") << std::endl;
         } else {
             zeroChild = getNode(i+1, std::make_pair(induceDomain(mate, i+1), count));
+
+            std::cout << "zero-child is new node" << std::endl;
+            std::cout << "  " << "mate:" << std::endl << "    ";
+            printMate(nodesMateFunction[zeroChild]);
+            std::cout << "  " << "count:" << std::endl << "    ";
+            printCount(nodesCountFunction[zeroChild]);
         }
 
         Zdd<Edge>* oneChild = NULL;
         if (doesFormCycle(mate, e) && doesMatchHints(countUpdate(count, i))) {
             oneChild = oneTerminal;
+
+            std::cout << "one-child is oneTerminal" <<std::endl;
         } else if (doesDeclineEdge(mate, i) || isIncompatibleCount(countUpdate(count, i), i)) {
             oneChild = zeroTerminal;
+
+            std::cout << "one-child is zeroTerminal" << std::endl;
+            std::cout << "  " << (doesDeclineEdge(mate, i) ? "edge declined" : "edge not declined") << std::endl;
+            std::cout << "  " << (isIncompatibleCount(countUpdate(count, i), i) ? "incompatible count update" : "not imcompatible count update") << std::endl;
         } else {
             oneChild = getNode(i+1, std::make_pair(induceDomain(mateUpdate(mate, e), i+1), countUpdate(count, i)));
+
+            std::cout << "one-child is new node" << std::endl;
+            std::cout << "  " << "mate:" << std::endl << "    ";
+            printMate(nodesMateFunction[oneChild]);
+            std::cout << "  " << "count:" << std::endl << "    ";
+            printCount(nodesCountFunction[oneChild]);
         }
 
         n->setZeroChild(zeroChild);
